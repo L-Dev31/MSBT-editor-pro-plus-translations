@@ -1,7 +1,7 @@
 from msbt import *
 from util import *
 import tkinter as tk
-from tkinter import ttk, filedialog, simpledialog
+from tkinter import ttk, filedialog, simpledialog, messagebox
 from PIL import ImageTk, Image
 import sys, os
 import platform
@@ -16,68 +16,194 @@ sys.modules['cgi'] = cgi
 
 from googletrans import Translator
 
-# Dark theme colors
-BG_COLOR = "#2d2d2d"
-FG_COLOR = "#ffffff"
-ACCENT_COLOR = "#4a9c82"
-ENTRY_BG = "#404040"
-BUTTON_BG = "#3c3f41"
-TEXT_BG = "#363636"
-SELECT_BG = "#4a7a9c"
-DISABLED_FG = "#777777"
-
 operating_system = platform.system()
 script_dir = os.path.dirname(sys.argv[0])
 resources_dir = os.path.join(script_dir, 'resources')
 cache_file_dir = os.path.join(script_dir, "cache", "cache.txt")
 
-class DarkTheme:
+# Resource dir ?
+if not os.path.exists(resources_dir):
+    os.makedirs(resources_dir)
+
+# Theme colors
+DARK_BG = "#1E1E1E"
+DARKER_BG = "#121212"
+ACCENT_COLOR = "#0095AC"
+TEXT_COLOR = "#F0F0F0"
+SECONDARY_TEXT = "#BBBBBB"
+BORDER_COLOR = "#333333"
+BUTTON_BG = "#2A2A2A"
+BUTTON_ACTIVE = "#3D3D3D"
+ENTRY_BG = "#2D2D2D"
+HIGHLIGHT_COLOR = "#0095AC"
+
+class FlatButton(tk.Button):
+    def __init__(self, master=None, **kwargs):
+        kwargs.setdefault('relief', tk.FLAT)
+        kwargs.setdefault('bg', BUTTON_BG)
+        kwargs.setdefault('fg', TEXT_COLOR)
+        kwargs.setdefault('activebackground', BUTTON_ACTIVE)
+        kwargs.setdefault('activeforeground', TEXT_COLOR)
+        kwargs.setdefault('bd', 0)
+        kwargs.setdefault('padx', 10)
+        kwargs.setdefault('pady', 5)
+        super().__init__(master, **kwargs)
+        
+    def disable(self):
+        self.config(state='disabled', bg=DARKER_BG, fg=SECONDARY_TEXT)
+        
+    def enable(self):
+        self.config(state='normal', bg=BUTTON_BG, fg=TEXT_COLOR)
+
+class FlatStyle:
     @staticmethod
-    def configure_styles():
+    def configure_ttk_styles():
         style = ttk.Style()
         style.theme_use('clam')
         
-        style.configure('.', 
-            background=BG_COLOR,
-            foreground=FG_COLOR,
-            fieldbackground=ENTRY_BG,
-            selectbackground=SELECT_BG,
-            selectforeground=FG_COLOR
-        )
+        # Configure TButton
+        style.configure("TButton", 
+                        background=BUTTON_BG, 
+                        foreground=TEXT_COLOR, 
+                        borderwidth=0,
+                        focusthickness=0,
+                        padding=(10, 5))
+                        
+        style.map("TButton",
+                 background=[('active', BUTTON_ACTIVE), ('disabled', DARKER_BG)],
+                 foreground=[('disabled', SECONDARY_TEXT)])
+                 
+        # Configure TEntry
+        style.configure("TEntry", 
+                        fieldbackground=ENTRY_BG,
+                        background=ENTRY_BG,
+                        foreground=TEXT_COLOR,
+                        borderwidth=0,
+                        padding=5)
+                        
+        # Configure TCombobox
+        style.configure("TCombobox",
+                        fieldbackground=ENTRY_BG,
+                        background=ENTRY_BG,
+                        foreground=TEXT_COLOR,
+                        arrowcolor=TEXT_COLOR,
+                        borderwidth=0)
+                        
+        style.map("TCombobox",
+                 fieldbackground=[('readonly', ENTRY_BG)],
+                 selectbackground=[('readonly', ACCENT_COLOR)])
+                 
+        # Configure TProgressbar
+        style.configure("TProgressbar",
+                        background=ACCENT_COLOR,
+                        troughcolor=ENTRY_BG,
+                        borderwidth=0)
+                        
+        # Configure TFrame
+        style.configure("TFrame", background=DARK_BG)
         
-        style.configure('TFrame', background=BG_COLOR)
-        style.configure('TLabel', background=BG_COLOR, foreground=FG_COLOR)
-        style.configure('TButton', 
-            background=BUTTON_BG,
-            foreground=FG_COLOR,
-            borderwidth=0,
-            focuscolor=BG_COLOR
-        )
-        style.map('TButton',
-            background=[('active', ACCENT_COLOR), ('disabled', BG_COLOR)],
-            foreground=[('disabled', DISABLED_FG)]
-        )
-        style.configure('TEntry', 
-            fieldbackground=ENTRY_BG,
-            foreground=FG_COLOR,
-            insertcolor=FG_COLOR
-        )
-        style.configure('TCombobox', 
-            fieldbackground=ENTRY_BG,
-            foreground=FG_COLOR
-        )
-        style.configure('Vertical.TScrollbar', 
-            background=BUTTON_BG,
-            troughcolor=BG_COLOR
-        )
-        style.configure('Horizontal.TScrollbar', 
-            background=BUTTON_BG,
-            troughcolor=BG_COLOR
-        )
-        style.configure('TProgressbar', 
-            troughcolor=BG_COLOR,
-            background=ACCENT_COLOR
-        )
+        # Configure TLabelframe
+        style.configure("TLabelframe", background=DARK_BG, foreground=TEXT_COLOR)
+        style.configure("TLabelframe.Label", background=DARK_BG, foreground=TEXT_COLOR)
+
+class FlatListbox(tk.Listbox):
+    def __init__(self, master=None, **kwargs):
+        kwargs.setdefault('bg', ENTRY_BG)
+        kwargs.setdefault('fg', TEXT_COLOR)
+        kwargs.setdefault('selectbackground', ACCENT_COLOR)
+        kwargs.setdefault('selectforeground', TEXT_COLOR)
+        kwargs.setdefault('borderwidth', 0)
+        kwargs.setdefault('highlightthickness', 0)
+        super().__init__(master, **kwargs)
+
+class FlatText(tk.Text):
+    def __init__(self, master=None, **kwargs):
+        kwargs.setdefault('bg', ENTRY_BG)
+        kwargs.setdefault('fg', TEXT_COLOR)
+        kwargs.setdefault('insertbackground', TEXT_COLOR)
+        kwargs.setdefault('selectbackground', ACCENT_COLOR)
+        kwargs.setdefault('selectforeground', TEXT_COLOR)
+        kwargs.setdefault('borderwidth', 0)
+        kwargs.setdefault('highlightthickness', 0)
+        kwargs.setdefault('padx', 5)
+        kwargs.setdefault('pady', 5)
+        super().__init__(master, **kwargs)
+
+class CallbackText(FlatText):
+    def __init__(self, *args, **kwargs):
+        FlatText.__init__(self, *args, **kwargs)
+        self._orig = self._w + "_orig"
+        self.tk.call("rename", self._w, self._orig)
+        self.tk.createcommand(self._w, self._proxy)
+
+    def _proxy(self, command, *args):
+        cmd = (self._orig, command) + args
+        result = self.tk.call(cmd)
+
+        if command in ("insert", "delete", "replace"):
+            self.event_generate("<<TextModified>>")
+
+        return result
+
+class FlatEntry(tk.Entry):
+    def __init__(self, master=None, **kwargs):
+        kwargs.setdefault('bg', ENTRY_BG)
+        kwargs.setdefault('fg', TEXT_COLOR)
+        kwargs.setdefault('insertbackground', TEXT_COLOR)
+        kwargs.setdefault('selectbackground', ACCENT_COLOR)
+        kwargs.setdefault('selectforeground', TEXT_COLOR)
+        kwargs.setdefault('borderwidth', 0)
+        kwargs.setdefault('highlightthickness', 0)
+        super().__init__(master, **kwargs)
+
+class FlatLabel(tk.Label):
+    def __init__(self, master=None, **kwargs):
+        kwargs.setdefault('bg', DARK_BG)
+        kwargs.setdefault('fg', TEXT_COLOR)
+        super().__init__(master, **kwargs)
+
+class ConfirmationPrompt(tk.Toplevel):
+    def __init__(self, parent, title, message, options=("Yes", "No"), default=0):
+        tk.Toplevel.__init__(self, parent)
+        self.title(title)
+        self.configure(bg=DARK_BG)
+        self.resizable(False, False)
+        
+        self.choice = default
+        
+        # Calculate position
+        window_width = 350
+        window_height = 150
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+        center_x = int(screen_width/2 - window_width/2)
+        center_y = int(screen_height/2 - window_height/2)
+        self.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
+        
+        # Message
+        message_label = FlatLabel(self, text=message, wraplength=300, justify=tk.CENTER, pady=10)
+        message_label.pack(fill=tk.X, padx=20, pady=20)
+        
+        # Buttons
+        button_frame = tk.Frame(self, bg=DARK_BG)
+        button_frame.pack(fill=tk.X, padx=20, pady=10)
+        
+        # Create buttons based on options
+        for i, option_text in enumerate(options):
+            button = FlatButton(button_frame, text=option_text, 
+                              command=lambda i=i: self.set_choice(i))
+            if i == default:
+                button.config(bg=ACCENT_COLOR)
+            button.pack(side=tk.LEFT, padx=10, fill=tk.X, expand=True)
+        
+        # Make modal
+        self.transient(parent)
+        self.grab_set()
+        parent.wait_window(self)
+    
+    def set_choice(self, choice):
+        self.choice = choice
+        self.destroy()
 
 class gui():
     def __init__(self):
@@ -87,35 +213,36 @@ class gui():
         self.translator = Translator()
 
         self.window = tk.Tk()
-        self.window.title("MSBT Editor Pro + Translations")
-        DarkTheme.configure_styles()
+        self.window.title("Msbt Editor Pro + Translations")
+        self.window.configure(bg=DARK_BG)
+        self.window.minsize(width=864, height=550)
+        self.window.geometry("864x550")
+        self.window['padx'] = 10
+        self.window['pady'] = 10
         
-        # Set favicon
         try:
-            favicon_path = os.path.join(resources_dir, "favicon.png")
-            favicon_image = ImageTk.PhotoImage(Image.open(favicon_path))
-            self.window.iconphoto(True, favicon_image)
+            icon_path = os.path.join(resources_dir, 'favicon.ico')
+            self.window.iconbitmap(icon_path)
         except Exception as e:
             print(f"Error loading favicon: {e}")
 
-        self.window.configure(bg=BG_COLOR)
-        self.window.minsize(width=864, height=550)
-        self.window.geometry("864x550")
-        self.window['padx'] = 5
-        self.window['pady'] = 5
-
-        # Menu bar
-        menu_style = {
-            'bg': BUTTON_BG,
-            'fg': FG_COLOR,
-            'activebackground': ACCENT_COLOR,
-            'activeforeground': FG_COLOR
+        self.icons = {
+            'save': ImageTk.PhotoImage(Image.open(os.path.join(resources_dir, 'save_icon.png')).resize((20, 20))),
+            'add': ImageTk.PhotoImage(Image.open(os.path.join(resources_dir, 'add_icon.png')).resize((20, 20))),
+            'remove': ImageTk.PhotoImage(Image.open(os.path.join(resources_dir, 'remove_icon.png')).resize((20, 20)))
         }
-        
-        menubar = tk.Menu(self.window, **menu_style)
-        
+
+        # Apply flat style to ttk widgets
+        FlatStyle.configure_ttk_styles()
+
+        # Create menubar with dark style
+        menubar = tk.Menu(self.window, bg=DARKER_BG, fg=TEXT_COLOR, activebackground=HIGHLIGHT_COLOR, 
+                          activeforeground=TEXT_COLOR, borderwidth=0)
+        self.window.config(menu=menubar)
+
         # File menu
-        filemenu = tk.Menu(menubar, tearoff=0, **menu_style)
+        filemenu = tk.Menu(menubar, tearoff=0, bg=DARKER_BG, fg=TEXT_COLOR, 
+                           activebackground=HIGHLIGHT_COLOR, activeforeground=TEXT_COLOR, borderwidth=0)
         filemenu.add_command(label="Open", command=lambda: self.open_file())
         filemenu.add_command(label="Save", command=lambda: self.save())
         filemenu.add_command(label="Save As", command=lambda: self.save_as())
@@ -124,7 +251,8 @@ class gui():
         menubar.add_cascade(label="File", menu=filemenu)
 
         # Clean Text menu
-        cleantextmenu = tk.Menu(menubar, tearoff=0, **menu_style)
+        cleantextmenu = tk.Menu(menubar, tearoff=0, bg=DARKER_BG, fg=TEXT_COLOR, 
+                               activebackground=HIGHLIGHT_COLOR, activeforeground=TEXT_COLOR, borderwidth=0)
         cleantextmenu.add_command(label="Clean Export", command=lambda: self.clean_export())
         cleantextmenu.add_command(label="Batch Clean Export", command=lambda: self.batch_clean_export())
         cleantextmenu.add_separator()
@@ -133,7 +261,8 @@ class gui():
         menubar.add_cascade(label="Clean Text", menu=cleantextmenu)
 
         # Coded Text menu
-        codedtextmenu = tk.Menu(menubar, tearoff=0, **menu_style)
+        codedtextmenu = tk.Menu(menubar, tearoff=0, bg=DARKER_BG, fg=TEXT_COLOR, 
+                               activebackground=HIGHLIGHT_COLOR, activeforeground=TEXT_COLOR, borderwidth=0)
         codedtextmenu.add_command(label="Coded Export", command=lambda: self.coded_export())
         codedtextmenu.add_command(label="Batch Coded Export", command=lambda: self.batch_coded_export())
         codedtextmenu.add_separator()
@@ -142,165 +271,102 @@ class gui():
         menubar.add_cascade(label="Coded Text", menu=codedtextmenu)
 
         # Translate menu
-        translatemenu = tk.Menu(menubar, tearoff=0, **menu_style)
-        translatemenu.add_command(label="1 time", command=lambda: self.translate_text(1))
-        translatemenu.add_command(label="2 times", command=lambda: self.translate_text(2))
-        translatemenu.add_command(label="5 times", command=lambda: self.translate_text(5))
-        translatemenu.add_command(label="10 times", command=lambda: self.translate_text(10))
-        translatemenu.add_command(label="25 times", command=lambda: self.translate_text(25))
-        translatemenu.add_command(label="50 times", command=lambda: self.translate_text(50))
-        translatemenu.add_command(label="100 times", command=lambda: self.translate_text(100))
-        translatemenu.add_command(label="150 times", command=lambda: self.translate_text(150))
-        translatemenu.add_command(label="250 times", command=lambda: self.translate_text(250))
-        translatemenu.add_command(label="500 times", command=lambda: self.translate_text(500))
-        translatemenu.add_command(label="1000 times", command=lambda: self.translate_text(1000))
+        translatemenu = tk.Menu(menubar, tearoff=0, bg=DARKER_BG, fg=TEXT_COLOR, 
+                               activebackground=HIGHLIGHT_COLOR, activeforeground=TEXT_COLOR, borderwidth=0)
+        translate_counts = [1, 2, 5, 10, 25, 50, 100, 150, 250, 500, 1000]
+        for count in translate_counts:
+            label = f"{count} time{'s' if count > 1 else ''}"
+            translatemenu.add_command(label=label, command=lambda c=count: self.translate_text(c))
         menubar.add_cascade(label="Translate", menu=translatemenu)
 
-        self.window.config(menu=menubar)
+        # Main content frame
+        main_frame = tk.Frame(self.window, bg=DARK_BG)
+        main_frame.pack(fill=tk.BOTH, expand=True)
 
-        # Labels List Frame
-        labels_list_frame = ttk.Frame(self.window)
-        labels_list_frame.grid(row=0, column=0, sticky=tk.NSEW)
+        # Left panel - Labels list
+        labels_list_frame = tk.Frame(main_frame, bg=DARK_BG, bd=0)
+        labels_list_frame.pack(side=tk.LEFT, fill=tk.Y, padx=(0, 10))
 
-        self.labels_label = ttk.Label(labels_list_frame, text="String")
-        self.labels_label.grid(row=0, columnspan=4)
+        self.labels_label = FlatLabel(labels_list_frame, text="String")
+        self.labels_label.pack(fill=tk.X, pady=(0, 5))
 
-        labels_listbox_subframe = ttk.Frame(labels_list_frame)
-        labels_listbox_subframe.grid(row=1, column=0, columnspan=4, sticky=tk.NSEW)
-
+        # Labels listbox with scrollbar
+        listbox_frame = tk.Frame(labels_list_frame, bg=DARK_BG)
+        listbox_frame.pack(fill=tk.BOTH, expand=True)
+        
         self.Labels_List = []
         self.labels_listbox_value = tk.StringVar(value=self.Labels_List)
         
-        scrollbar = ttk.Scrollbar(labels_listbox_subframe, style="Vertical.TScrollbar")
-        self.labels_listbox = tk.Listbox(
-            labels_listbox_subframe,
-            listvariable=self.labels_listbox_value,
-            yscrollcommand=scrollbar.set,
-            bg=ENTRY_BG,
-            fg=FG_COLOR,
-            selectbackground=SELECT_BG,
-            selectforeground=FG_COLOR,
-            borderwidth=0,
-            highlightthickness=0
-        )
+        scrollbar = tk.Scrollbar(listbox_frame, bg=DARK_BG, troughcolor=ENTRY_BG, 
+                               activebackground=ACCENT_COLOR, borderwidth=0, highlightthickness=0)
+        self.labels_listbox = FlatListbox(listbox_frame, listvariable=self.labels_listbox_value, 
+                                       yscrollcommand=scrollbar.set, exportselection=False, width=25)
         self.labels_listbox.bind("<<ListboxSelect>>", lambda _: self.listbox_change())
         scrollbar.config(command=self.labels_listbox.yview)
         
-        self.labels_listbox.grid(row=0, column=0, sticky=tk.NSEW)
-        scrollbar.grid(row=0, column=1, sticky=tk.NS)
+        self.labels_listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
-        labels_listbox_subframe.grid_rowconfigure(0, weight=1)
-        labels_listbox_subframe.grid_columnconfigure(0, weight=1)
-        labels_listbox_subframe.grid_columnconfigure(1, weight=0)
-
-        # Label Entry and Buttons
+        # Label entry and buttons
+        label_controls_frame = tk.Frame(labels_list_frame, bg=DARK_BG, pady=10)
+        label_controls_frame.pack(fill=tk.X)
+        
         self.label_entry_var = tk.StringVar()
-        label_entry = ttk.Entry(labels_list_frame, textvariable=self.label_entry_var)
-        label_entry.grid(row=2, column=0, sticky=tk.EW)
+        label_entry = FlatEntry(label_controls_frame, textvariable=self.label_entry_var)
+        label_entry.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 5))
+        
+        buttons_frame = tk.Frame(label_controls_frame, bg=DARK_BG)
+        buttons_frame.pack(side=tk.RIGHT)
+        
+        # Icon buttons
+        self.save_label_button = FlatButton(buttons_frame, image=self.icons['save'], 
+                                          state='disabled', command=lambda: self.save_label())
+        self.save_label_button.pack(side=tk.LEFT, padx=2)
+        
+        self.add_label_button = FlatButton(buttons_frame, image=self.icons['add'], 
+                                        state='disabled', command=lambda: self.add_label())
+        self.add_label_button.pack(side=tk.LEFT, padx=2)
+        
+        self.remove_label_button = FlatButton(buttons_frame, image=self.icons['remove'], 
+                                           state='disabled', command=lambda: self.remove_label())
+        self.remove_label_button.pack(side=tk.LEFT, padx=2)
 
-        # Load white icons for dark mode
-        icon_images = {
-            'save': self.load_icon("save_icon.png"),
-            'add': self.load_icon("add_icon.png"),
-            'remove': self.load_icon("remove_icon.png")
-        }
+        # Right panel - String editing
+        current_string_frame = tk.Frame(main_frame, bg=DARK_BG)
+        current_string_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
 
-        button_style = {
-            'bg': BG_COLOR,
-            'activebackground': ACCENT_COLOR,
-            'borderwidth': 0,
-            'highlightthickness': 0
-        }
+        edit_label = FlatLabel(current_string_frame, text="Edit")
+        edit_label.pack(fill=tk.X, pady=(0, 5))
 
-        self.save_label_button = tk.Button(
-            labels_list_frame,
-            image=icon_images['save'],
-            **button_style,
-            command=lambda: self.save_label()
-        )
-        self.save_label_button.grid(row=2, column=1)
-
-        self.add_label_button = tk.Button(
-            labels_list_frame,
-            image=icon_images['add'],
-            **button_style,
-            command=lambda: self.add_label()
-        )
-        self.add_label_button.grid(row=2, column=2)
-
-        self.remove_label_button = tk.Button(
-            labels_list_frame,
-            image=icon_images['remove'],
-            **button_style,
-            command=lambda: self.remove_label()
-        )
-        self.remove_label_button.grid(row=2, column=3)
-
-        labels_list_frame.grid_rowconfigure(0, weight=0)
-        labels_list_frame.grid_rowconfigure(1, weight=1)
-        labels_list_frame.grid_rowconfigure(2, weight=0)
-        labels_list_frame.grid_columnconfigure(0, weight=1)
-
-        # Current String Frame
-        current_string_frame = ttk.Frame(self.window)
-        current_string_frame.grid(row=0, column=1, sticky=tk.NSEW)
-
-        edit_label = ttk.Label(current_string_frame, text="Edit")
-        edit_label.grid(row=0, column=0)
-
-        text_style = {
-            'bg': TEXT_BG,
-            'fg': FG_COLOR,
-            'insertbackground': FG_COLOR,
-            'selectbackground': SELECT_BG,
-            'selectforeground': FG_COLOR,
-            'borderwidth': 0,
-            'highlightthickness': 0
-        }
-
-        self.edit_string_text = CallbackText(current_string_frame, **text_style)
+        # Editing text area
+        self.edit_string_text = CallbackText(current_string_frame)
         self.edit_string_text.bind("<<TextModified>>", lambda x: self.edit_text_change())
-        self.edit_string_text.grid(row=1, column=0, sticky=tk.NSEW)
+        self.edit_string_text.pack(fill=tk.BOTH, expand=True, pady=(0, 10))
 
-        self.restore_original_text_button = ttk.Button(
-            current_string_frame,
-            text="Restore Original",
-            command=lambda: self.restore_original_text()
-        )
-        self.restore_original_text_button['state'] = 'disabled'
-        self.restore_original_text_button.grid(row=2, column=0)
+        # Restore button
+        self.restore_original_text_button = FlatButton(current_string_frame, text="Restore Original", 
+                                                    state='disabled', command=lambda: self.restore_original_text())
+        self.restore_original_text_button.pack(fill=tk.X, pady=(0, 10))
 
-        self.original_string_text = tk.Text(
-            current_string_frame,
-            state='disabled',
-            **text_style
-        )
-        self.original_string_text.grid(row=3, column=0, sticky=tk.EW)
+        # Original text display
+        original_label = FlatLabel(current_string_frame, text="Original Text")
+        original_label.pack(fill=tk.X, pady=(0, 5))
+        
+        self.original_string_text = FlatText(current_string_frame, state='disabled', height=8)
+        self.original_string_text.pack(fill=tk.X)
 
-        current_string_frame.grid_rowconfigure(0, weight=0)
-        current_string_frame.grid_rowconfigure(1, weight=1)
-        current_string_frame.grid_rowconfigure(2, weight=0)
-        current_string_frame.grid_rowconfigure(3, weight=0)
-        current_string_frame.grid_columnconfigure(0, weight=1)
-
-        self.window.grid_rowconfigure(0, weight=1)
-        self.window.grid_columnconfigure(0, weight=0)
-        self.window.grid_columnconfigure(1, weight=1)
+        # Status bar
+        self.status_frame = tk.Frame(self.window, bg=DARKER_BG, height=25)
+        self.status_frame.pack(fill=tk.X, pady=(10, 0))
+        
+        self.status_label = FlatLabel(self.status_frame, text="Ready", bg=DARKER_BG, anchor=tk.W, padx=10)
+        self.status_label.pack(side=tk.LEFT)
 
         self.window.mainloop()
 
-    def load_icon(self, filename):
-        path = os.path.join(resources_dir, filename)
-        try:
-            img = Image.open(path).convert('L').point(lambda x: 255 if x > 40 else 0)
-            return ImageTk.PhotoImage(img)
-        except Exception as e:
-            print(f"Error loading icon {filename}: {e}")
-            return ImageTk.PhotoImage(Image.new('RGB', (16, 16)))
-
     def translate_text(self, iterations):
         if self.msbt is None:
-            tk.messagebox.showerror("Error", "No MSBT file loaded!")
+            messagebox.showerror("Error", "No MSBT file loaded!", parent=self.window)
             return
 
         LANGUAGES = {
@@ -312,7 +378,7 @@ class gui():
             'nl': 'Dutch', 'en': 'English', 'eo': 'Esperanto', 'et': 'Estonian', 'ee': 'Ewe',
             'tl': 'Filipino', 'fi': 'Finnish', 'fr': 'French', 'fy': 'Frisian', 'gl': 'Galician',
             'ka': 'Georgian', 'de': 'German', 'el': 'Greek', 'gu': 'Gujarati', 'ht': 'Haitian Creole',
-            'ha': 'Hausa', 'haw': 'Hawaiian', 'iw': 'Hebrew', 'hi': 'Hindi', 'hmn': 'Hmong',
+            'ha': 'Hausa', 'haw': 'Hawaiian', 'he': 'Hebrew', 'hi': 'Hindi', 'hmn': 'Hmong',
             'hu': 'Hungarian', 'is': 'Icelandic', 'ig': 'Igbo', 'id': 'Indonesian', 'ga': 'Irish',
             'it': 'Italian', 'ja': 'Japanese', 'jw': 'Javanese', 'kn': 'Kannada', 'kk': 'Kazakh',
             'km': 'Khmer', 'rw': 'Kinyarwanda', 'ko': 'Korean', 'ku': 'Kurdish (Kurmanji)',
@@ -333,20 +399,30 @@ class gui():
         config_window = tk.Toplevel(self.window)
         config_window.title("Translation Settings")
         config_window.geometry("320x240")
+        config_window.configure(bg=DARK_BG)
+        config_window.resizable(False, False)
 
-        ttk.Label(config_window, text="Source Language:").pack(pady=2)
-        source_var = tk.StringVar(value='French')
+        # Center the window
+        config_window.update_idletasks()
+        width = config_window.winfo_width()
+        height = config_window.winfo_height()
+        x = (config_window.winfo_screenwidth() // 2) - (width // 2)
+        y = (config_window.winfo_screenheight() // 2) - (height // 2)
+        config_window.geometry(f'+{x}+{y}')
+
+        ttk.Label(config_window, text="Source Language:", background=DARK_BG, foreground=TEXT_COLOR).pack(pady=2)
+        source_var = tk.StringVar(value='English')
         source_combo = ttk.Combobox(config_window, textvariable=source_var, 
                                     values=list(LANGUAGES.values()), state="readonly")
         source_combo.pack(pady=2)
 
-        ttk.Label(config_window, text="Target Language:").pack(pady=2)
-        target_var = tk.StringVar(value='Spanish')
+        ttk.Label(config_window, text="Target Language:", background=DARK_BG, foreground=TEXT_COLOR).pack(pady=2)
+        target_var = tk.StringVar(value='English')
         target_combo = ttk.Combobox(config_window, textvariable=target_var, 
                                     values=list(LANGUAGES.values()), state="readonly")
         target_combo.pack(pady=2)
         
-        ttk.Label(config_window, text="Random Translation Iterations:").pack(pady=2)
+        ttk.Label(config_window, text="Random Translation Iterations:", background=DARK_BG, foreground=TEXT_COLOR).pack(pady=2)
         iterations_var = tk.IntVar(value=iterations)
         iterations_spin = ttk.Spinbox(config_window, from_=1, to=10, textvariable=iterations_var)
         iterations_spin.pack(pady=2)
@@ -360,7 +436,16 @@ class gui():
             progress_window = tk.Toplevel(self.window)
             progress_window.title("Translation Progress")
             progress_window.geometry("500x200")
+            progress_window.configure(bg=DARK_BG)
             
+            # Center the progress window
+            progress_window.update_idletasks()
+            width = progress_window.winfo_width()
+            height = progress_window.winfo_height()
+            x = (progress_window.winfo_screenwidth() // 2) - (width // 2)
+            y = (progress_window.winfo_screenheight() // 2) - (height // 2)
+            progress_window.geometry(f'+{x}+{y}')
+
             progress_frame = ttk.Frame(progress_window)
             progress_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
             
@@ -370,22 +455,22 @@ class gui():
             info_frame = ttk.Frame(progress_frame)
             info_frame.pack(fill=tk.X)
             
-            percent_label = ttk.Label(info_frame, text="0% completed")
+            percent_label = ttk.Label(info_frame, text="0% completed", background=DARK_BG, foreground=TEXT_COLOR)
             percent_label.pack(side=tk.LEFT, padx=5)
             
-            iter_label = ttk.Label(info_frame, text=f"String 1/{len(self.msbt.txt2.Strings)}")
+            iter_label = ttk.Label(info_frame, text=f"String 1/{len(self.msbt.txt2.Strings)}", background=DARK_BG, foreground=TEXT_COLOR)
             iter_label.pack(side=tk.RIGHT, padx=5)
             
-            preview_frame = ttk.LabelFrame(progress_frame, text="Current Processing")
+            preview_frame = ttk.LabelFrame(progress_frame, text="Current Processing", style='TLabelframe')
             preview_frame.pack(fill=tk.BOTH, expand=True, pady=5)
             
-            original_label = ttk.Label(preview_frame, text="Original: ")
+            original_label = ttk.Label(preview_frame, text="Original: ", background=DARK_BG, foreground=TEXT_COLOR)
             original_label.pack(anchor=tk.W)
             
-            path_label = ttk.Label(preview_frame, text="Path: ")
+            path_label = ttk.Label(preview_frame, text="Path: ", background=DARK_BG, foreground=TEXT_COLOR)
             path_label.pack(anchor=tk.W)
             
-            translated_label = ttk.Label(preview_frame, text="Translated: ")
+            translated_label = ttk.Label(preview_frame, text="Translated: ", background=DARK_BG, foreground=TEXT_COLOR)
             translated_label.pack(anchor=tk.W)
 
             try:
@@ -580,7 +665,7 @@ class gui():
                                 filetypes=[("MSBT Files", ".msbt")])
         if new_dir != '': 
             self.msbt_dir = new_dir
-            self.window.title("Msbt Editor Pro v0.10.1 - "+self.msbt_dir[self.msbt_dir.rindex("/")+1:])
+            self.window.title("Msbt Editor Pro + Translations - "+self.msbt_dir[self.msbt_dir.rindex("/")+1:])
             cache_file = open(cache_file_dir, 'w')
             cache_file.write(self.msbt_dir[:self.msbt_dir.rindex("/")+1])
             cache_file.close()
