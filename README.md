@@ -36,7 +36,8 @@ A powerful and user-friendly editor for MSBT files with built-in translation cap
 - **Fire Emblem: Three Houses (Switch):** 🟩  
 - **Mario Kart 8 Deluxe (Switch):** 🟧 *(Partial: Course names only)*  
 - **Mario Party Superstars (Switch):** 🟥 *(Text embedded in binaries)*  
-- **Miitopia (3DS):** 🟩  
+- **Miitopia (3DS):** 🟩
+- **Miitopia (Switch):** 🟩  
 - **Pokémon Scarlet/Violet (Switch):** 🟥 *(New encryption)*  
 - **Pokémon Sun/Moon (3DS):** 🟩  
 - **Splatoon 2 (Switch):** 🟧 *(Partial: Basic UI only)*  
