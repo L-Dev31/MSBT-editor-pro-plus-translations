@@ -19,34 +19,38 @@ A powerful and user-friendly editor for MSBT files with built-in translation cap
 - **Tag Preservation**: Preserves special tags during translation (you can stay chill and translate, no human verification needed 👌).
 
 ---
-## Compatibility
 
-🟩 Fully Working
-
-🟧 Partially Working
-
-🟥 Not Working 
-
-⬛ (Any games that aren't present here aren't tested yet)
-
-### **Game Compatibility List**  
+## **Game Compatibility List**  
 (if any of the informations below are uncorrect, please come let me know !)
 
-- **Animal Crossing: New Horizons (Switch):** 🟩  
-- **Fire Emblem: Three Houses (Switch):** 🟩  
+
+### **🟩 Fully Working**
+
+- **Animal Crossing: New Horizons (Switch)**  
+- **Fire Emblem: Three Houses (Switch)**
+- **Miitopia (3DS)** 
+- **Miitopia (Switch)**
+- **Pokémon Sun/Moon (3DS)**
+- **Xenoblade Chronicles 2 (Switch)** 
+
+
+### **🟧 Partially Working**
+
 - **Mario Kart 8 Deluxe (Switch):** 🟧 *(Partial: Course names only)*  
-- **Mario Party Superstars (Switch):** 🟥 *(Text embedded in binaries)*  
-- **Miitopia (3DS):** 🟩
-- **Miitopia (Switch):** 🟩  
-- **Pokémon Scarlet/Violet (Switch):** 🟥 *(New encryption)*  
-- **Pokémon Sun/Moon (3DS):** 🟩  
 - **Splatoon 2 (Switch):** 🟧 *(Partial: Basic UI only)*  
-- **Splatoon 3 (Switch):** 🟥 *(Modified MSBT structure)*  
 - **Super Smash Bros. Ultimate (Switch):** 🟧 *(Partial: Menus only)*  
 - **The Legend of Zelda: Breath of the Wild (Switch):** 🟧 *(Partial: Simple text)*  
-- **The Legend of Zelda: Tears of the Kingdom (Switch):** 🟥 *(New format)*  
-- **Xenoblade Chronicles 2 (Switch):** 🟩  
 
+
+### **🟥 Not Working** 
+
+- **Mario Party Superstars (Switch):** 🟥 *(Text embedded in binaries)*  
+- **Pokémon Scarlet/Violet (Switch):** 🟥 *(New encryption)*  
+- **Splatoon 3 (Switch):** 🟥 *(Modified MSBT structure)*  
+- **The Legend of Zelda: Tears of the Kingdom (Switch):** 🟥 *(New format)*
+
+
+### **⬛ (Any games that aren't present here aren't tested yet)**
   
 ---
 
