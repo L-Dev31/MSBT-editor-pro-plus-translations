@@ -604,8 +604,6 @@ class gui():
                     
                     self.modified = True
                 
-                self.fix_any_remaining_encoding_issues()
-                
                 tk.messagebox.showinfo("Success", "Translation completed successfully!\nAll characters and tags preserved.")
                 
             except Exception as e:
