@@ -36,18 +36,18 @@ A powerful and user-friendly editor for MSBT files with built-in translation cap
 
 ### **🟧 Partially Working**
 
-- **Mario Kart 8 Deluxe (Switch):** 🟧 *(Partial: Course names only)*  
-- **Splatoon 2 (Switch):** 🟧 *(Partial: Basic UI only)*  
-- **Super Smash Bros. Ultimate (Switch):** 🟧 *(Partial: Menus only)*  
-- **The Legend of Zelda: Breath of the Wild (Switch):** 🟧 *(Partial: Simple text)*  
+- **Mario Kart 8 Deluxe (Switch)** *(Partial: Course names only)*  
+- **Splatoon 2 (Switch)** *(Partial: Basic UI only)*  
+- **Super Smash Bros. Ultimate (Switch)** *(Partial: Menus only)*  
+- **The Legend of Zelda: Breath of the Wild (Switch)** *(Partial: Simple text)*  
 
 
 ### **🟥 Not Working** 
 
-- **Mario Party Superstars (Switch):** 🟥 *(Text embedded in binaries)*  
-- **Pokémon Scarlet/Violet (Switch):** 🟥 *(New encryption)*  
-- **Splatoon 3 (Switch):** 🟥 *(Modified MSBT structure)*  
-- **The Legend of Zelda: Tears of the Kingdom (Switch):** 🟥 *(New format)*
+- **Mario Party Superstars (Switch)** *(Text embedded in binaries)*  
+- **Pokémon Scarlet/Violet (Switch)** *(New encryption)*  
+- **Splatoon 3 (Switch)** *(Modified MSBT structure)*  
+- **The Legend of Zelda: Tears of the Kingdom (Switch)** *(New format)*
 
 
 ### **⬛ (Any games that aren't present here aren't tested yet)**
