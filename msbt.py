@@ -5,8 +5,8 @@ import sys
 from util import *
 from os import listdir, path
 import json
-script_dir = path.dirname(sys.argv[0])
-resources_dir = script_dir+'/resources/'
+script_dir = os.path.dirname(sys.argv[0])
+resources_dir = os.path.join(script_dir, 'resources')
 font_width_data = json.load(open(resources_dir+"/font_width_data.json"))
 
 
