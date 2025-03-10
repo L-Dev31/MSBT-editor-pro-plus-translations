@@ -1,8 +1,5 @@
-Here’s a concise and professional `README.md` for your GitHub repository:
+![image](https://github.com/user-attachments/assets/f9de22aa-a465-43b0-a556-deb6bce37f5c)
 
----
-
-# MSBT Editor Pro + Translations
 
 A powerful and user-friendly editor for MSBT files with built-in translation capabilities. This tool allows you to edit, manage, and translate text strings in MSBT files efficiently.
 
