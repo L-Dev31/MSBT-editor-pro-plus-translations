@@ -396,13 +396,21 @@ class gui():
             'zu': 'Zulu'
         }
 
+        # Create the config window
         config_window = tk.Toplevel(self.window)
         config_window.title("Translation Settings")
         config_window.geometry("320x240")
         config_window.configure(bg=DARK_BG)
         config_window.resizable(False, False)
 
-        # Center the window
+        # Set the favicon for the config window
+        try:
+            icon_path = os.path.join(resources_dir, 'favicon_translation.ico')
+            config_window.iconbitmap(icon_path)
+        except Exception as e:
+            messagebox.showwarning("Favicon Error", f"Could not load favicon: {e}")
+
+        # Center the config window
         config_window.update_idletasks()
         width = config_window.winfo_width()
         height = config_window.winfo_height()
@@ -410,18 +418,19 @@ class gui():
         y = (config_window.winfo_screenheight() // 2) - (height // 2)
         config_window.geometry(f'+{x}+{y}')
 
+        # Source Language
         ttk.Label(config_window, text="Source Language:", background=DARK_BG, foreground=TEXT_COLOR).pack(pady=2)
         source_var = tk.StringVar(value='English')
-        source_combo = ttk.Combobox(config_window, textvariable=source_var, 
-                                    values=list(LANGUAGES.values()), state="readonly")
+        source_combo = ttk.Combobox(config_window, textvariable=source_var, values=list(LANGUAGES.values()), state="readonly")
         source_combo.pack(pady=2)
 
+        # Target Language
         ttk.Label(config_window, text="Target Language:", background=DARK_BG, foreground=TEXT_COLOR).pack(pady=2)
         target_var = tk.StringVar(value='English')
-        target_combo = ttk.Combobox(config_window, textvariable=target_var, 
-                                    values=list(LANGUAGES.values()), state="readonly")
+        target_combo = ttk.Combobox(config_window, textvariable=target_var, values=list(LANGUAGES.values()), state="readonly")
         target_combo.pack(pady=2)
-        
+
+        # Translation Iterations
         ttk.Label(config_window, text="Random Translation Iterations:", background=DARK_BG, foreground=TEXT_COLOR).pack(pady=2)
         iterations_var = tk.IntVar(value=iterations)
         iterations_spin = ttk.Spinbox(config_window, from_=1, to=10, textvariable=iterations_var)
@@ -433,11 +442,18 @@ class gui():
             iters = iterations_var.get()
             config_window.destroy()
 
+            # Create the progress window
             progress_window = tk.Toplevel(self.window)
             progress_window.title("Translation Progress")
             progress_window.geometry("500x200")
             progress_window.configure(bg=DARK_BG)
-            
+
+            # Set the favicon for the progress window
+            try:
+                progress_window.iconbitmap(icon_path)
+            except Exception as e:
+                messagebox.showwarning("Favicon Error", f"Could not load favicon: {e}")
+
             # Center the progress window
             progress_window.update_idletasks()
             width = progress_window.winfo_width()
@@ -446,30 +462,31 @@ class gui():
             y = (progress_window.winfo_screenheight() // 2) - (height // 2)
             progress_window.geometry(f'+{x}+{y}')
 
+            # Progress bar and labels
             progress_frame = ttk.Frame(progress_window)
             progress_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
-            
+
             progress_bar = ttk.Progressbar(progress_frame, maximum=100, mode="determinate")
             progress_bar.pack(fill=tk.X, pady=5)
-            
+
             info_frame = ttk.Frame(progress_frame)
             info_frame.pack(fill=tk.X)
-            
+
             percent_label = ttk.Label(info_frame, text="0% completed", background=DARK_BG, foreground=TEXT_COLOR)
             percent_label.pack(side=tk.LEFT, padx=5)
-            
+
             iter_label = ttk.Label(info_frame, text=f"String 1/{len(self.msbt.txt2.Strings)}", background=DARK_BG, foreground=TEXT_COLOR)
             iter_label.pack(side=tk.RIGHT, padx=5)
-            
+
             preview_frame = ttk.LabelFrame(progress_frame, text="Current Processing", style='TLabelframe')
             preview_frame.pack(fill=tk.BOTH, expand=True, pady=5)
-            
+
             original_label = ttk.Label(preview_frame, text="Original: ", background=DARK_BG, foreground=TEXT_COLOR)
             original_label.pack(anchor=tk.W)
-            
+
             path_label = ttk.Label(preview_frame, text="Path: ", background=DARK_BG, foreground=TEXT_COLOR)
             path_label.pack(anchor=tk.W)
-            
+
             translated_label = ttk.Label(preview_frame, text="Translated: ", background=DARK_BG, foreground=TEXT_COLOR)
             translated_label.pack(anchor=tk.W)
 
@@ -483,10 +500,10 @@ class gui():
 
                 all_languages = list(LANGUAGES.keys())
                 total = len(self.msbt.txt2.Strings)
-                
+
                 for idx, original in enumerate(self.msbt.txt2.Strings):
-                    iter_label.config(text=f"String {idx+1}/{total}")
-                    
+                    iter_label.config(text=f"String {idx + 1}/{total}")
+
                     try:
                         if isinstance(original, bytes):
                             original_clean = original.decode('utf-8', 'surrogateescape')
@@ -497,22 +514,22 @@ class gui():
                             original_clean = original.decode('latin-1', 'surrogateescape')
                         else:
                             original_clean = original
-                    
+
                     preview_original = original_clean[:40] + ("..." if len(original_clean) > 40 else "")
                     original_label.config(text=f"Original: {preview_original}")
-                    
+
                     parts = re.split(r'(<[^>]+>)', original_clean)
                     current_text = original_clean
-                    
+
                     if iters == 1:
                         path_label.config(text=f"Path: {LANGUAGES[src]} → {LANGUAGES[dest]}")
                         progress_window.update()
-                        
+
                         translated_segments = []
                         for part in parts:
                             if not part:
                                 continue
-                                
+
                             if re.match(r'<[^>]+>', part):
                                 translated_segments.append(part)
                             else:
@@ -528,22 +545,22 @@ class gui():
                                         translated_segments.append(translated)
                                     except:
                                         translated_segments.append(part)
-                        
+
                         current_text = ''.join(translated_segments)
                         current_text = current_text.encode('utf-8', 'surrogateescape').decode('utf-8')
-                        
+
                         preview_translated = current_text[:40] + ("..." if len(current_text) > 40 else "")
                         translated_label.config(text=f"Translated: {preview_translated}")
-                        
+
                         progress = (idx + 1) / total * 100
                         progress_bar['value'] = progress
                         percent_label.config(text=f"{progress:.1f}% completed")
                         progress_window.update()
-                        
+
                     else:
                         current_src = src
                         translation_path = [LANGUAGES[src]]
-                        
+
                         for iteration in range(1, iters + 1):
                             if iteration < iters:
                                 available_langs = [lang for lang in all_languages if lang != current_src and lang != dest]
@@ -553,18 +570,18 @@ class gui():
                                     current_dest = dest
                             else:
                                 current_dest = dest
-                            
+
                             translation_path.append(LANGUAGES[current_dest])
                             path_str = " → ".join(translation_path)
                             path_label.config(text=f"Iteration {iteration}/{iters} with {LANGUAGES[current_dest]}")
-                            
+
                             parts = re.split(r'(<[^>]+>)', current_text)
                             translated_segments = []
-                            
+
                             for part in parts:
                                 if not part:
                                     continue
-                                    
+
                                 if re.match(r'<[^>]+>', part):
                                     translated_segments.append(part)
                                 else:
@@ -580,32 +597,32 @@ class gui():
                                             translated_segments.append(translated)
                                         except:
                                             translated_segments.append(part)
-                            
+
                             current_text = ''.join(translated_segments)
                             current_text = current_text.encode('utf-8', 'surrogateescape').decode('utf-8')
-                            
+
                             preview_translated = current_text[:40] + ("..." if len(current_text) > 40 else "")
                             translated_label.config(text=f"Translated: {preview_translated}")
-                            
+
                             current_src = current_dest
-                            
+
                             progress = ((idx * iters) + iteration) / (total * iters) * 100
                             progress_bar['value'] = progress
                             percent_label.config(text=f"{progress:.1f}% completed")
                             progress_window.update()
-                        
+
                         path_label.config(text=f"Path: {' → '.join(translation_path)}")
                         progress_window.update()
-                    
+
                     if isinstance(self.msbt.txt2.Strings[idx], bytes):
                         self.msbt.txt2.Strings[idx] = current_text.encode('utf-8', 'surrogateescape')
                     else:
                         self.msbt.txt2.Strings[idx] = current_text
-                    
+
                     self.modified = True
-                
+
                 tk.messagebox.showinfo("Success", "Translation completed successfully!\nAll characters and tags preserved.")
-                
+
             except Exception as e:
                 tk.messagebox.showerror("Error", f"Translation failure: {str(e)}")
             finally:
