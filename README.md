@@ -21,11 +21,11 @@ A powerful and user-friendly editor for MSBT files with built-in translation cap
 ---
 ## Compatibility
 
-🟥 Not Working 
+🟩 Fully Working
 
 🟧 Partially Working
 
-🟩 Fully Working
+🟥 Not Working 
 
 ⬛ (Any games that aren't present here aren't tested yet)
 
