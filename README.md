@@ -16,7 +16,7 @@ A powerful and user-friendly editor for MSBT files with built-in translation cap
 - **Translation Support**: Built-in integration with Google Translate for quick translations (with controlable Iterations) perfect for creating translation/bad translations mods.
 - **Export to .txt**: export and import your .msbt files with .txt files useful for very specific usages.
 - **Comfortable Interface**: Sleek, modern flat dark theme for comfortable usage.
-- **Tag Preservation**: Preserves special tags during translation (you can stay chill and translate no human verification needed 👌.
+- **Tag Preservation**: Preserves special tags during translation (you can stay chill and translate, no human verification needed 👌.
 
 ---
 
