@@ -19,6 +19,16 @@ A powerful and user-friendly editor for MSBT files with built-in translation cap
 - **Tag Preservation**: Preserves special tags during translation (you can stay chill and translate, no human verification needed 👌).
 
 ---
+## Compatibility
+
+🟥 Not Working 
+🟧 Partially Working
+🟩 Fully Working
+⬛ (Any games that aren't present here aren't tested yet)
+
+Miitopia (3DS) : 🟩
+
+---
 
 ## Installation
 
