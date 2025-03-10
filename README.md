@@ -30,6 +30,7 @@ A powerful and user-friendly editor for MSBT files with built-in translation cap
 ⬛ (Any games that aren't present here aren't tested yet)
 
 ### **Game Compatibility List**  
+(if any of the informations below are uncorrect, please come let me know !)
 
 - **Animal Crossing: New Horizons (Switch):** 🟩  
 - **Fire Emblem: Three Houses (Switch):** 🟩  
