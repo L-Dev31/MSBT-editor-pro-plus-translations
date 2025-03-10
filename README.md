@@ -30,7 +30,7 @@ A powerful and user-friendly editor for MSBT files with built-in translation cap
 ⬛ (Any games that aren't present here aren't tested yet)
 
 
-Miitopia (3DS) : 🟩
+- **Miitopia (3DS) :** 🟩
 
 ---
 
