@@ -56,7 +56,7 @@ A powerful and user-friendly editor for MSBT files with built-in translation cap
 
 ## Installation
 
-1. Download the source code in [Code] => [Download .ZIP] 
+1. Download the zip file in releases.
 
 2. Install dependencies:
    ```bash
