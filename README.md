@@ -1,12 +1,12 @@
-Here’s a concise and professional `README.md` for your GitHub repository:
+# **MSBT Editor Pro + Translations**
+![image](https://github.com/user-attachments/assets/b3d79ea2-01d0-4edb-a982-55d14f4d2c6b)
 
----
-
-# MSBT Editor Pro + Translations
 
 A powerful and user-friendly editor for MSBT files with built-in translation capabilities. This tool allows you to edit, manage, and translate text strings in MSBT files efficiently.
 
 ![image](https://github.com/user-attachments/assets/0868b7e8-c319-4ea8-829f-5e6de66ad04c)
+![image](https://github.com/user-attachments/assets/3532649b-2848-4bdc-8235-35b8dad7dd50)
+
 
 ---
 
@@ -59,4 +59,4 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 
 ---
 
-*Made with ❤️ for the modding community by L-DEV, work based on MSBT editor pro by [Unknown Person...]*
+*Made with ❤️ for the modding community by L-DEV, work based on MSBT editor pro by [Unknown Person... :sob:]*
