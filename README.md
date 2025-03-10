@@ -36,7 +36,7 @@ A powerful and user-friendly editor for MSBT files with built-in translation cap
 
 ### **🟧 Partially Working**
 
-- **Mario Kart 8 Deluxe (Switch)** *(Partial: Course names only)*  
+- Mario Kart 8 Deluxe (Switch) *(Partial: Course names only)*  
 - **Splatoon 2 (Switch)** *(Partial: Basic UI only)*  
 - **Super Smash Bros. Ultimate (Switch)** *(Partial: Menus only)*  
 - **The Legend of Zelda: Breath of the Wild (Switch)** *(Partial: Simple text)*  
