@@ -275,7 +275,7 @@ class gui():
                                activebackground=HIGHLIGHT_COLOR, activeforeground=TEXT_COLOR, borderwidth=0)
         translate_counts = [1, 2, 5, 10, 25, 50, 100, 150, 250, 500, 1000]
         for count in translate_counts:
-            label = f"{count} time{'s' if count > 1 else ''}"
+            label = f"{count} time{'s' if count > 1 else ' (simple translation)'}"
             translatemenu.add_command(label=label, command=lambda c=count: self.translate_text(c))
         menubar.add_cascade(label="Translate", menu=translatemenu)
 
