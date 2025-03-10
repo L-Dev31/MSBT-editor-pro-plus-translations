@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/f9de22aa-a465-43b0-a556-deb6bce37f5c)
+![image](https://github.com/user-attachments/assets/b3d79ea2-01d0-4edb-a982-55d14f4d2c6b)
 
 
 A powerful and user-friendly editor for MSBT files with built-in translation capabilities. This tool allows you to edit, manage, and translate text strings in MSBT files efficiently.
