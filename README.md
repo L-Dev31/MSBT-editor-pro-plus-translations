@@ -6,7 +6,7 @@ Here’s a concise and professional `README.md` for your GitHub repository:
 
 A powerful and user-friendly editor for MSBT files with built-in translation capabilities. This tool allows you to edit, manage, and translate text strings in MSBT files efficiently.
 
-![Preview](https://github.com/user-attachments/assets/d61ecedb-46be-4d75-931a-9c3ec9745efd)
+![image](https://github.com/user-attachments/assets/0868b7e8-c319-4ea8-829f-5e6de66ad04c)
 
 ---
 
