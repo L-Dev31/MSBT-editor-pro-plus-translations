@@ -26,12 +26,12 @@ A powerful and user-friendly editor for MSBT files with built-in translation cap
 
 ### **🟩 Fully Working**
 
-- **Animal Crossing: New Horizons (Switch)**  
-- **Fire Emblem: Three Houses (Switch)**
-- **Miitopia (3DS)** 
-- **Miitopia (Switch)**
-- **Pokémon Sun/Moon (3DS)**
-- **Xenoblade Chronicles 2 (Switch)** 
+- Animal Crossing: New Horizons __(Switch)__
+- Fire Emblem: Three Houses __(Switch)__
+- Miitopia __(3DS)__
+- Miitopia __(Switch)__
+- Pokémon Sun/Moon __(3DS)__
+- Xenoblade Chronicles 2 __(Switch)__
 
 
 ### **🟧 Partially Working**
@@ -44,10 +44,10 @@ A powerful and user-friendly editor for MSBT files with built-in translation cap
 
 ### **🟥 Not Working** 
 
-- **Mario Party Superstars (Switch)** *(Text embedded in binaries)*  
-- **Pokémon Scarlet/Violet (Switch)** *(New encryption)*  
-- **Splatoon 3 (Switch)** *(Modified MSBT structure)*  
-- **The Legend of Zelda: Tears of the Kingdom (Switch)** *(New format)*
+- Mario Party Superstars __(Switch)__ **(Text embedded in binaries)**  
+- Pokémon Scarlet/Violet __(Switch)__ **(New encryption)**  
+- Splatoon 3 __(Switch)__ **(Modified MSBT structure)**  
+- The Legend of Zelda: Tears of the Kingdom __(Switch)__ **(New format)**
 
 
 ### **⬛ (Any games that aren't present here aren't tested yet)**
