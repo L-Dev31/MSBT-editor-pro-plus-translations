@@ -59,4 +59,4 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 
 ---
 
-*Made with ❤️ for the modding community by L-DEV, work based on MSBT editor pro by [Unknown Person...]*
+*Made with ❤️ for the modding community by L-DEV, work based on MSBT editor pro by [Unknown Person... :sob:]*
